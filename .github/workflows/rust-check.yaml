@@ -1,0 +1,25 @@
+name: Rust Check
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  Deploy-Production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Rust toolchain
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          # Confirmed with 1.81.0-nightly
+          toolchain: nightly
+          components: clippy, rustfmt
+      - name: Install Leptosfmt
+        run: cargo install leptosfmt
+      - name: Clippy
+        run: cargo clippy --all-targets --all-features -- -D warnings
+      - name: Leptosfmt
+        run: leptosfmt --check '**/*.rs'
+      - name: Rustfmt
+        run: cargo fmt --all -- --check

@@ -1,0 +1,6 @@
+trunk-version = "0.20.3"
+
+[[hooks]]
+stage = "build"
+command = "bash"
+command_arguments = ["-c", "cp ./analyzed_3x4_4.bin $TRUNK_STAGING_DIR/"]
